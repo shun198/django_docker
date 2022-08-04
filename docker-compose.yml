@@ -1,0 +1,49 @@
+version: "3.9"
+
+services:
+  db:
+    container_name: mysql
+    image: mysql:8.0
+    # M1チップでも動くように
+    platform: linux/x86_64
+    # ローカルの/data/dbをコンテナの/var/lib/mysqlにマウンティング
+    volumes:
+      - db_data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    # 環境変数
+    env_file:
+      - .env
+    # デフォルトの認証プラグインをMySQL8系用に変更
+    command: --default-authentication-plugin=mysql_native_password
+    # Dockerが再起動しても、自動的にコンテナを起動
+    restart: always
+  app:
+    container_name: app
+    build:
+      context: .
+      dockerfile: containers/django/Dockerfile
+    # コンテナ起動時にpython manage.py runserver 0.0.0.0:8000を実行
+    # 実行することでDjangoのサーバが起動する
+    # wait-for-it.shを使ってMySQLコンテナが稼働するまで待つ
+    command: sh -c "./wait-for-it.sh db:3306; python manage.py runserver 0.0.0.0:8000"
+    # ローカルのカレントディレクトリをコンテナの/codeにマウンティング
+    volumes:
+      - .:/code
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+  web:
+    container_name: web
+    image: nginx
+    volumes:
+      - ./containers/nginx/default.conf:/etc/nginx/default.conf
+      - ./containers/uwsgi/uwsgi_params:/etc/nginx/uwsgi_params
+    # ホストの8080番ポートにアクセスするとコンテナの80番(HTTP)ポートにアクセスできる
+    ports:
+      - "8080:80"
+    depends_on:
+      - app
+volumes:
+  db_data:
