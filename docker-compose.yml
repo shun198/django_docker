@@ -38,7 +38,8 @@ services:
     container_name: web
     image: nginx
     volumes:
-      - ./containers/nginx/default.conf:/etc/nginx/default.conf
+      # - ./containers/nginx/default.conf:/etc/nginx/default.conf
+      - ./containers/nginx/conf.d/default.conf:/etc/nginx/conf.d/default.conf
       - ./containers/uwsgi/uwsgi_params:/etc/nginx/uwsgi_params
     # ホストの8080番ポートにアクセスするとコンテナの80番(HTTP)ポートにアクセスできる
     ports:
