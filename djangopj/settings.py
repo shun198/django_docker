@@ -14,14 +14,11 @@ from pathlib import Path
 
 # osとenvironのモジュールをインポート
 import os
-import environ
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 TEMPLATE_DIR = os.path.join(BASE_DIR, "templates")
 # .envファイルから環境変数を読み込む
-env = environ.Env()
-env.read_env(os.path.join(BASE_DIR, ".env"))
 
 
 # Quick-start development settings - unsuitable for production
@@ -86,9 +83,9 @@ DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.mysql",
         # コンテナ内の環境変数をDATABASESのパラメータに反映
-        "NAME": env("MYSQL_DATABASE"),
-        "USER": env("MYSQL_USER"),
-        "PASSWORD": env("MYSQL_PASSWORD"),
+        "NAME": os.getenv("MYSQL_DATABASE"),
+        "USER": os.getenv("MYSQL_USER"),
+        "PASSWORD": os.getenv("MYSQL_PASSWORD"),
         "HOST": "db",
         "PORT": 3306,
     }
@@ -118,9 +115,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
 
 # 言語を日本語に設定
-LANGUAGE_CODE = env("LANGUAGE_CODE")
+LANGUAGE_CODE = os.getenv("LANGUAGE_CODE")
 # タイムゾーンをAsia/Tokyoに設定
-TIME_ZONE = env("TIME_ZONE")
+TIME_ZONE = os.getenv("TIME_ZONE")
 
 USE_I18N = True
 
