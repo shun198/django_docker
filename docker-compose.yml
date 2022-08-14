@@ -16,8 +16,6 @@ services:
       - .env
     # デフォルトの認証プラグインをMySQL8系用に変更
     command: --default-authentication-plugin=mysql_native_password
-    # Dockerが再起動しても、自動的にコンテナを起動
-    restart: always
   app:
     container_name: app
     build:
