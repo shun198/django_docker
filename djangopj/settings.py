@@ -14,14 +14,10 @@ from pathlib import Path
 
 # osとenvironのモジュールをインポート
 import os
-import environ
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-TEMPLATE_DIR = os.path.join(BASE_DIR, "templates")
 # .envファイルから環境変数を読み込む
-env = environ.Env()
-env.read_env(os.path.join(BASE_DIR, ".env"))
 
 
 # Quick-start development settings - unsuitable for production
@@ -33,7 +29,7 @@ SECRET_KEY = "django-insecure-7_gxf2@i&vcgi0g1c56_z!^va^)mt3g*&-*a1l)4!ps*k6_g@6
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS").split(" ")
 
 
 # Application definition
@@ -45,7 +41,6 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "testapp",
 ]
 
 MIDDLEWARE = [
@@ -63,7 +58,7 @@ ROOT_URLCONF = "djangopj.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [TEMPLATE_DIR],
+        "DIRS": [],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -86,9 +81,9 @@ DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.mysql",
         # コンテナ内の環境変数をDATABASESのパラメータに反映
-        "NAME": env("MYSQL_DATABASE"),
-        "USER": env("MYSQL_USER"),
-        "PASSWORD": env("MYSQL_PASSWORD"),
+        "NAME": os.environ.get("MYSQL_DATABASE"),
+        "USER": os.environ.get("MYSQL_USER"),
+        "PASSWORD": os.environ.get("MYSQL_PASSWORD"),
         "HOST": "db",
         "PORT": 3306,
     }
@@ -118,9 +113,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
 
 # 言語を日本語に設定
-LANGUAGE_CODE = env("LANGUAGE_CODE")
+LANGUAGE_CODE = os.environ.get("LANGUAGE_CODE")
 # タイムゾーンをAsia/Tokyoに設定
-TIME_ZONE = env("TIME_ZONE")
+TIME_ZONE = os.environ.get("TIME_ZONE")
 
 USE_I18N = True
 
