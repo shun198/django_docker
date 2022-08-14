@@ -3,7 +3,10 @@ version: "3.9"
 services:
   db:
     container_name: mysql
-    image: mysql:8.0
+    # image: mysql:8.0
+    build:
+      context: .
+      dockerfile: containers/mysql/Dockerfile
     # M1チップでも動くように
     platform: linux/x86_64
     # ローカルの/data/dbをコンテナの/var/lib/mysqlにマウンティング
@@ -14,8 +17,6 @@ services:
     # 環境変数
     env_file:
       - .env
-    # デフォルトの認証プラグインをMySQL8系用に変更
-    command: --default-authentication-plugin=mysql_native_password
   app:
     container_name: app
     build:
