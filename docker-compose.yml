@@ -21,11 +21,6 @@ services:
     build:
       context: .
       dockerfile: containers/django/Dockerfile
-    # コンテナ起動時にpython manage.py runserver 0.0.0.0:8000を実行
-    # 実行することでDjangoのサーバが起動する
-    # wait-for-it.shを使ってMySQLコンテナが稼働するまで待つ
-    command: sh -c "./wait-for-it.sh db:3306; python manage.py runserver 0.0.0.0:8000"
-    # ローカルのカレントディレクトリをコンテナの/codeにマウンティング
     volumes:
       - .:/code
     ports:
@@ -41,7 +36,7 @@ services:
       - ./containers/uwsgi/uwsgi_params:/etc/nginx/uwsgi_params
     # ホストの8080番ポートにアクセスするとコンテナの80番(HTTP)ポートにアクセスできる
     ports:
-      - "8080:80"
+      - "80:80"
     depends_on:
       - app
 volumes:
