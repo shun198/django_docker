@@ -62,6 +62,7 @@
 		"oderwat.indent-rainbow",
 		"fusiondev.new-zenkaku",
 		"mosapride.zenkaku",
-		"hbenl.vscode-test-explorer"
+		"hbenl.vscode-test-explorer",
+		"usernamehw.errorlens"
 	]
 }
