@@ -84,7 +84,7 @@ DATABASES = {
         "USER": os.environ.get("MYSQL_USER"),
         "PASSWORD": os.environ.get("MYSQL_PASSWORD"),
         "HOST": "db",
-        "PORT": 3306,
+        "PORT": os.environ.get("PORT"),
     }
 }
 
