@@ -15,18 +15,19 @@ import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-SECRET_KEY = os.environ.get("SECRET_KEY")
-DEBUG = os.environ.get("DEBUG")
+
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-co&^ib3upx47#pa%z2f$lv1_358^vnp%u37j#6*t1$j5_ud*7g"
+# SECRET_KEYを.envから取得
+SECRET_KEY = os.environ.get("SECRET_KEY")
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# DEBUGを.envから取得
+DEBUG = os.environ.get("DEBUG")
 
+# ALLOWED_HOSTSを.envから取得
 ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS").split(" ")
 
 
@@ -78,6 +79,7 @@ WSGI_APPLICATION = "tutorial.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
+# MySQLのパラメータを.envから取得
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.mysql",
@@ -128,7 +130,6 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
-STATIC_ROOT = "/static/"
 STATIC_URL = "/static/"
 
 # Default primary key field type
@@ -144,5 +145,4 @@ SPECTACULAR_SETTINGS = {
     "TITLE": "プロジェクト名",
     "DESCRIPTION": "詳細",
     "VERSION": "1.0.0",
-    # "SERVE_INCLUDE_SCHEMA": False,
 }
